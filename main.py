@@ -2,6 +2,8 @@ import discord
 import os
 from discord.ext import commands, tasks
 import json
+import pihole as ph
+import asyncio
 
 bot=commands.Bot(command_prefix="pi-", case_insentitive=True)
 bot.remove_command('help')
@@ -10,7 +12,6 @@ with open("config.json", "r", encoding='utf-8-sig') as ff:
     conf=json.load(ff)
 
 token=conf["token"]
-
 @bot.event
 async def on_ready():
  
@@ -20,8 +21,7 @@ async def on_ready():
 
     print(bot.user.name)
     print(bot.user.id)
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Pi-hole on domain (ip)"))
-
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Pi-hole on host name loler (ip loler)"))
 
 loop = asyncio.get_event_loop()
 

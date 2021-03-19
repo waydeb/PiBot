@@ -15,11 +15,11 @@ class Help(commands.Cog):
         
         if not request:
             embeds=[
-                discord.Embed(title='''** **''', description="""**help** - You are here right now.
+                discord.Embed(title='''**PiBot**''', description="""**help** - You are here right now.
 **stats** - Shows stats from the PiHole server
 **startAuto** - Posts updates every 5 minuites""", color=0xFF0000),
 
-                discord.Embed(title='''** **''', description="""**gravity** `<update>, <enable>, <disable>` - Allows you to preform various actions on the PiHole DNS FTL Service.
+                discord.Embed(title='''**PiBot**''', description="""**gravity** `<update>, <enable>, <disable>` - Allows you to preform various actions on the PiHole DNS FTL Service.
 **topdevice** - Shows the top device on the network
 **filter** `<add>, <remove>` - Allows you to add/remove things from the PiHole Blacklist""", color=0xFF0000)
             ]

@@ -1,37 +1,42 @@
 import discord
 import pihole as ph
 import asyncio
-from threading import Thread
 import json
 import os
+from datetime import datetime
 from discord.ext import commands
-pihole = ph.PiHole("your host name here")
-pihole.authenticate("you password here")
-hostname="ip prefered here"
+pihole = ph.PiHole("pihole here")
+pihole.authenticate("your pihole password here")
+hostname="your pihole ip here"
 pihole.refresh()
-pihole.refreshTop(1)
-time=60*5
-async def run(ctx, messageb):
-    p = await asyncio.create_subprocess_shell(f"ssh root@{hostname} pihole -g", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+
+async def run(ctx, messageb, user):
+    startTime=datetime.now()
+    p = await asyncio.create_subprocess_shell(f"ssh root@{hostname} 'pihole -g'", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     stdout, stderr = await p.communicate()
     if stdout:
-        embed=discord.Embed(title="Gravity Output", description=f'```{stdout.decode()[-200:]}```', colour=0xFF0000)
+        embed=discord.Embed(title="Gravity Output", description=f'```{stdout.decode()[-250:]}\n\n```', colour=0xFF0000)
+        embed.add_field(name="** **", value=f"```Time Started: {startTime.replace(microsecond=0)}\nTime Ended: {datetime.now().replace(microsecond=0)}\nTime Taken: {datetime.now().replace(microsecond=0) - startTime.replace(microsecond=0)}```", inline=False)
         await messageb.edit(embed=embed)
+        await messageb.reply(f'<@{user}> done!', mention_author=True)
     if stderr:
         print(f'[stderr]\n{stderr.decode()}')
     beans=stdout.decode()
     await p.wait()
 
 class Pi(commands.Cog):
-    
 
     def __init__(self, bot):
         self.bot=bot
 
     @commands.command(name="stats")
     async def stats(self, ctx):
+        pihole.refresh()
+        osbuild=os.popen("uname -a").read()
+        pibuild=os.popen(f"ssh root@{hostname} 'uname -a'").read()
         embed=discord.Embed(title="Stats", description=f"```Overall Status: {pihole.status}\nBlocked 😎: {pihole.blocked}\nQueries (Without Blocked 😎): {pihole.queries}\nTotal Queries: {pihole.total_queries}\n\n```", colour=0xFF0000)
-        embed.add_field(name="** **", value=f"```Domain Count: {pihole.domain_count}\nUnique Clients/Total Clients: {pihole.unique_clients}/{pihole.total_clients}```")
+        embed.add_field(name="** **", value=f"```Domain Count: {pihole.domain_count}\nUnique Clients/Total Clients: {pihole.unique_clients}/{pihole.total_clients}\n\n```")
+        embed.add_field(name="** **", value=f"```Host Build: {osbuild}\nPi Build: {pibuild}```", inline=False)
         await ctx.send(embed=embed)
 
     @commands.command(name="fliter")
@@ -64,28 +69,29 @@ class Pi(commands.Cog):
                 break
 
     @commands.command(name="gravity")
-    async def gravity(self, ctx, *, ued, **, time):
+    async def gravity(self, ctx, *, ued):
         if not await self.bot.is_owner(ctx.author):
             return await ctx.send("You can't use that command!")
-        if ued == "update":
+        if ued == "-update":
             embeda=discord.Embed(title="Processing!", description="<a:loading:821989749957853215>", colour=0xFF0000)
             messageb=await ctx.send(embed=embeda)
-            await run(ctx, messageb)
-        if ued == "disable":
+            await run(ctx, messageb, user=ctx.author.id)
+        if ued == "-disable":
             pihole.disable(300)
             pihole.refresh()
-            embed=discord.Embed(title="Gravity Status", description=f"```Gravity Disabled for {time} seconds\n{pihole.status}```", colour=0xFF0000)
+            embed=discord.Embed(title="Gravity Status", description=f"```Gravity Disabled for 300 seconds\n{pihole.status}```", colour=0xFF0000)
             message=await ctx.send(embed=embed)
-            asyncio.sleep(300)
+            await asyncio.sleep(300)
+            pihole.enable()
             pihole.refresh()
             embed2=discord.Embed(title="Gravity Status", description=f"```Gravity re-enabled!\n{pihole.status}```", colour=0xFF0000)
-            await message.edit(content=f"<@{ctx.author.id}>", embed=embed)
-        if ued == "enable":
+            await message.edit(embed=embed)
+            await ctx.send(f"<@{ctx.author.id}>")
+        if ued == "-enable":
             pihole.enable()
             pihole.refresh()
             embed=discord.Embed(title="Gravity Status", description="```Gravity Enabled!\n{pihole.status}```")
-            await ctx.send(embed=emed)
-
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Pi(bot))
