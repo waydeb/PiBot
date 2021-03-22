@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 from discord.ext import commands
-import modules.sshcmd as sshCmd
+import modules.sshCmd as sshModule
 pihole = ph.PiHole("pihole here")
 pihole.authenticate("your pihole password here")
 pihole.refresh()
@@ -18,8 +18,8 @@ class Pi(commands.Cog):
     @commands.command(name="stats")
     async def stats(self, ctx):
         pihole.refresh()
-        osbuild=os.popen("uname -a").read()
-        pibuild=os.popen(f"ssh root@{hostname} 'uname -a'").read()
+        osbuild=await sshModule.hostbuild()
+        pibuild=await sshModule.pibuild()
         embed=discord.Embed(title="Stats", description=f"```Overall Status: {pihole.status}\nBlocked 😎: {pihole.blocked}\nQueries (Without Blocked 😎): {pihole.queries}\nTotal Queries: {pihole.total_queries}\n\n```", colour=0xFF0000)
         embed.add_field(name="** **", value=f"```Domain Count: {pihole.domain_count}\nUnique Clients/Total Clients: {pihole.unique_clients}/{pihole.total_clients}\n\n```")
         embed.add_field(name="** **", value=f"```Host Build: {osbuild}\nPi Build: {pibuild}```", inline=False)
@@ -44,7 +44,7 @@ class Pi(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name='startAuto')
-    async def startAuto(self, ctx, ):
+    async def startAuto(self, ctx):
         j=pihole.top_devices
         while True:
             for u in j:
