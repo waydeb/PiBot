@@ -5,24 +5,10 @@ import json
 import os
 from datetime import datetime
 from discord.ext import commands
+import modules.sshcmd as sshCmd
 pihole = ph.PiHole("pihole here")
 pihole.authenticate("your pihole password here")
-hostname="your pihole ip here"
 pihole.refresh()
-
-async def run(ctx, messageb, user):
-    startTime=datetime.now()
-    p = await asyncio.create_subprocess_shell(f"ssh root@{hostname} 'pihole -g'", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
-    stdout, stderr = await p.communicate()
-    if stdout:
-        embed=discord.Embed(title="Gravity Output", description=f'```{stdout.decode()[-250:]}\n\n```', colour=0xFF0000)
-        embed.add_field(name="** **", value=f"```Time Started: {startTime.replace(microsecond=0)}\nTime Ended: {datetime.now().replace(microsecond=0)}\nTime Taken: {datetime.now().replace(microsecond=0) - startTime.replace(microsecond=0)}```", inline=False)
-        await messageb.edit(embed=embed)
-        await messageb.reply(f'<@{user}> done!', mention_author=True)
-    if stderr:
-        print(f'[stderr]\n{stderr.decode()}')
-    beans=stdout.decode()
-    await p.wait()
 
 class Pi(commands.Cog):
 
@@ -75,7 +61,7 @@ class Pi(commands.Cog):
         if ued == "-update":
             embeda=discord.Embed(title="Processing!", description="<a:loading:821989749957853215>", colour=0xFF0000)
             messageb=await ctx.send(embed=embeda)
-            await run(ctx, messageb, user=ctx.author.id)
+            await sshCmd.run(ctx, messageb, user=ctx.author.id)
         if ued == "-disable":
             pihole.disable(300)
             pihole.refresh()
