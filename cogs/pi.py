@@ -56,6 +56,7 @@ class Pi(commands.Cog):
         for u in j:
             embed=discord.Embed(title="Top Device", description=f"```{u}```", colour=0xFF0000)
             await ctx.send(embed=embed)
+            break
 
     @commands.command(name='startAuto')
     async def startAuto(self, ctx, ):
