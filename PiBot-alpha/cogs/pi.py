@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 from discord.ext import commands
-import modules.sshCmd as sshModule
+from .modules import sshCmd as sshModule
 pihole = ph.PiHole("pihole here")
 pihole.authenticate("your pihole password here")
 pihole.refresh()
@@ -42,7 +42,6 @@ class Pi(commands.Cog):
         for u in j:
             embed=discord.Embed(title="Top Device", description=f"```{u}```", colour=0xFF0000)
             await ctx.send(embed=embed)
-            break
 
     @commands.command(name='startAuto')
     async def startAuto(self, ctx):
@@ -56,7 +55,7 @@ class Pi(commands.Cog):
                 break
 
     @commands.command(name="gravity")
-    async def gravity(self, ctx, *, ued):
+    async def gravity(self, ctx, *, uedm):
         if not await self.bot.is_owner(ctx.author):
             return await ctx.send("You can't use that command!")
         if ued == "-update":
