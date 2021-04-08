@@ -5,9 +5,9 @@ import json
 import os
 from datetime import datetime
 from discord.ext import commands
-import modules.sshCmd as sshModule
-pihole = ph.PiHole("pihole here")
-pihole.authenticate("your pihole password here")
+from .modules import sshCmd as sshModule
+pihole = ph.PiHole("ip")
+pihole.authenticate("password")
 pihole.refresh()
 
 class Pi(commands.Cog):
@@ -62,7 +62,7 @@ class Pi(commands.Cog):
         if ued == "-update":
             embeda=discord.Embed(title="Processing!", description="<a:loading:821989749957853215>", colour=0xFF0000)
             messageb=await ctx.send(embed=embeda)
-            await sshCmd.run(ctx, messageb, user=ctx.author.id)
+            await sshModule.run(ctx, messageb, user=ctx.author.id)
         if ued == "-disable":
             pihole.disable(300)
             pihole.refresh()
