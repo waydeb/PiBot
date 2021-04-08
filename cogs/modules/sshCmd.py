@@ -6,7 +6,7 @@ hostname="ip"
 
 async def run(ctx, messageb, user):
     startTime=datetime.now()
-    p = await asyncio.create_subprocess_shell(f"ssh root@{hostname} 'df -h'", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+    p = await asyncio.create_subprocess_shell(f"ssh root@{hostname} 'pihole -g'", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     stdout, stderr = await p.communicate()
     if stdout:
         embed=discord.Embed(title="Gravity Output", description=f'```{stdout.decode()[-250:]}\n\n```', colour=0xFF0000)
