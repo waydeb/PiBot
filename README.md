@@ -22,4 +22,4 @@ a pretty shit discord bot that is mainly coded at 3 in the morning because why n
 > 
 > `python3 -m pip install -U discord.py PiHole-api disputils`
 
-> if you want some block lists here you go https://the-monkeys-are.cheatinghow.wtf/bl2.txt all of the lists i use
+> if you want some block lists here you go https://the-monkeys-are.cheatinghow.wtf/bl2.txt all of the lists i use | https://the-monkeys-are.cheatinghow.wtf/blacklist.txt for all of the lists in one
