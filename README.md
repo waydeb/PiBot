@@ -1,4 +1,5 @@
-# PiBot
+# PiBot - slash testing
+## caution: any code here may not be in a full working state, no code on this branch is final, check back for updates often.
 ## warning shit code here
 ### if you wish to use `pi-gravity -update` 
 ### you will need to make a passwordless sshkey on the server running the bot and add it to 
