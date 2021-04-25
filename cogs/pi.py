@@ -1,25 +1,35 @@
 import discord
+from discord_slash import cog_ext, SlashContext
 import pihole as ph
 import asyncio
 import json
 import os
 from datetime import datetime
 from discord.ext import commands
+from discord_slash.utils.manage_commands import create_option, create_choice
 from .modules import sshCmd as sshModule
-pihole = ph.PiHole("ip")
-pihole.authenticate("password")
+pihole = ph.PiHole("a")
+pihole.authenticate("a")
 pihole.refresh()
+ip="a"
 
 class Pi(commands.Cog):
 
     def __init__(self, bot):
         self.bot=bot
 
-    @commands.command(name="stats")
+    @cog_ext.cog_slash(name="stats", guild_ids=[your guild id here], description="Pihole Stats", options=[
+        create_option(
+            name='stats',
+            description='Pihole Stats',
+            option_type=3,
+            required=False
+        )
+    ])
     async def stats(self, ctx):
         pihole.refresh()
-        osbuild=await sshModule.hostbuild()
-        pibuild=await sshModule.pibuild()
+        osbuild=os.popen("uname -a").read()
+        pibuild=os.popen(f"ssh root@{ip} 'uname -a'").read()
         embed=discord.Embed(title="Stats", description=f"```Overall Status: {pihole.status}\nBlocked 😎: {pihole.blocked}\nQueries (Without Blocked 😎): {pihole.queries}\nTotal Queries: {pihole.total_queries}\n\n```", colour=0xFF0000)
         embed.add_field(name="** **", value=f"```Domain Count: {pihole.domain_count}\nUnique Clients/Total Clients: {pihole.unique_clients}/{pihole.total_clients}\n\n```")
         embed.add_field(name="** **", value=f"```Host Build: {osbuild}\nPi Build: {pibuild}```", inline=False)
@@ -27,11 +37,11 @@ class Pi(commands.Cog):
 
     @commands.command(name="fliter")
     async def filter(self, ctx, *, adrm, domain):
-        if adrm == "add":
+        if adrm == "--add":
             pihole.add("black", f"{domain}")
             embed=discord.Embed(title="Blacklist add", description=f"Domain `{domain}` has been added to the blacklist!", colour=0xFF0000)
             await ctx.send(embed=embed)
-        if adrm == "remove":
+        if adrm == "--remove":
             pihole.sub("black", f"{domain}")
             embed=discord.Embed(title="Blacklist remove", description=f"Domain `{domain}` has been removed from the blacklist!", colour=0xFF0000)
             await ctx.send(embed=embed)
@@ -59,11 +69,11 @@ class Pi(commands.Cog):
     async def gravity(self, ctx, *, ued):
         if not await self.bot.is_owner(ctx.author):
             return await ctx.send("You can't use that command!")
-        if ued == "-update":
+        if ued == "--update":
             embeda=discord.Embed(title="Processing!", description="<a:loading:821989749957853215>", colour=0xFF0000)
             messageb=await ctx.send(embed=embeda)
             await sshModule.run(ctx, messageb, user=ctx.author.id)
-        if ued == "-disable":
+        if ued == "--disable":
             pihole.disable(300)
             pihole.refresh()
             embed=discord.Embed(title="Gravity Status", description=f"```Gravity Disabled for 300 seconds\n{pihole.status}```", colour=0xFF0000)
@@ -74,7 +84,7 @@ class Pi(commands.Cog):
             embed2=discord.Embed(title="Gravity Status", description=f"```Gravity re-enabled!\n{pihole.status}```", colour=0xFF0000)
             await message.edit(embed=embed)
             await ctx.send(f"<@{ctx.author.id}>")
-        if ued == "-enable":
+        if ued == "--enable":
             pihole.enable()
             pihole.refresh()
             embed=discord.Embed(title="Gravity Status", description="```Gravity Enabled!\n{pihole.status}```")

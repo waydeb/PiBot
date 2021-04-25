@@ -2,7 +2,7 @@ from datetime import datetime
 import asyncio
 import os
 import discord
-hostname="ip"
+hostname="a"
 
 async def run(ctx, messageb, user):
     startTime=datetime.now()
