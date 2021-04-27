@@ -1,10 +1,10 @@
-# PiBot - slash testing
-## caution: any code here may not be in a full working state, no code on this branch is final, check back for updates often.
+# PiBot
+## slash update!
 ## warning shit code here
 ### if you wish to use `pi-gravity -update` 
 ### you will need to make a passwordless sshkey on the server running the bot and add it to 
 ### `root`'s `~/.ssh/authorized_keys` file
-#### last updated 2021-04-25 20:02 loler
+#### last updated 2021-04-27 18:20 loler
 a pretty shit discord bot that is mainly coded at 3 in the morning because why not
 > if you want hq code dont come here
 > 
