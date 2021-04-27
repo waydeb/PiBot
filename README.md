@@ -18,6 +18,8 @@ a pretty shit discord bot that is mainly coded at 3 in the morning because why n
 > one install python module install script 
 > 
 > `https://the-monkeys-are.cheatinghow.wtf/install.sh`
+> `chmod +x install.sh`
+> `./install.sh`
 > 
 > you'll still need to do ssh yourself
 > 
