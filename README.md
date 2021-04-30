@@ -5,6 +5,17 @@
 ### you will need to make a passwordless sshkey on the server running the bot and add it to 
 ### `root`'s `~/.ssh/authorized_keys` file
 #### last updated 2021-04-27 18:20 loler
+
+examples:
+
+![stats](https://i.programming-socks.xyz/niTu4/XOJUrIjo51.gif/raw)
+
+![filter](https://i.programming-socks.xyz/niTu4/rOTimUyo54.gif/raw)
+
+![top device](https://i.programming-socks.xyz/niTu4/kUGUfIQA03.gif/raw)
+
+
+
 a pretty shit discord bot that is mainly coded at 3 in the morning because why not
 > if you want hq code dont come here
 > 
