@@ -19,9 +19,3 @@ async def run(ctx, messageb, user):
         await messageb.edit(embed=embed)
         await messageb.reply(f'<@{user}> done!', mention_author=True)
     await p.wait()
-
-async def pibuild():
-    pibuild = os.popen(f"ssh root@{hostname} 'uname -a'").read()
-
-async def hostbuild():
-    osbuild = os.popen("uname -a").read()
