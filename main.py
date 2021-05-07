@@ -3,6 +3,7 @@ import os
 from discord.ext import commands, tasks
 import json
 from discord_slash import SlashCommand
+import pihole as ph
 import asyncio
 
 bot = commands.Bot(command_prefix="pi-", case_insentitive=True)

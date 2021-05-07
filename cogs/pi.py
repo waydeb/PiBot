@@ -4,6 +4,7 @@ import pihole as ph
 import asyncio
 import os
 from discord.ext import commands
+from discord_slash.utils.manage_commands import create_option, create_choice
 from .modules import sshCmd as sshModule
 
 pihole = ph.PiHole("a")
