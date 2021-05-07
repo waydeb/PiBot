@@ -1,3 +1,3 @@
 echo install time
-python3 -m pip install -U discord.py PiHole-api disputils discord-py-slash-command
+python3 -m pip install -U -r requirements.txt
 echo install time done gaming

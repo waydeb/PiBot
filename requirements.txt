@@ -1,0 +1,4 @@
+discord.py>=1.7.2
+PiHole-api>=2.6
+disputils>=0.1.3
+discord-py-slash-command>=1.1.2
