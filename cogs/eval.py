@@ -4,9 +4,9 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 import discord
-import aiohttp
 import asyncio
 from discord.ext import commands
+
 
 class Eval(commands.Cog):
     def __init__(self, bot):
@@ -28,6 +28,7 @@ class Eval(commands.Cog):
         }
         if not await self.bot.is_owner(ctx.author):
             return await ctx.send("You can't use that command!")
+
         def cleanup_code(content):
             """Automatically removes code blocks from the code."""
             # remove ```py\n```
@@ -46,7 +47,7 @@ class Eval(commands.Cog):
         to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
 
         def paginate(text: str):
-            '''Simple generator that paginates text.'''
+            """Simple generator that paginates text."""
             last = 0
             pages = []
             for curr in range(0, len(text)):

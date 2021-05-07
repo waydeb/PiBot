@@ -3,17 +3,18 @@ import os
 from discord.ext import commands, tasks
 import json
 from discord_slash import SlashCommand
-import pihole as ph
 import asyncio
 
-bot=commands.Bot(command_prefix="pi-", case_insentitive=True)
+bot = commands.Bot(command_prefix="pi-", case_insentitive=True)
 slash = SlashCommand(bot, sync_commands=True)
 bot.remove_command('help')
 
 with open("config.json", "r", encoding='utf-8-sig') as ff:
-    conf=json.load(ff)
+    conf = json.load(ff)
 
-token=conf["token"]
+token = conf["token"]
+
+
 @bot.event
 async def on_ready():
  

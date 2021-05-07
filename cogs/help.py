@@ -1,8 +1,7 @@
 import discord
-import asyncio
-import json
 from discord.ext import commands
 from disputils import BotEmbedPaginator
+
 
 class Help(commands.Cog):
 
@@ -12,12 +11,11 @@ class Help(commands.Cog):
     @commands.command(name="""help""", aliases=["""commands"""])
     async def help(self, ctx, request=None):
 
-        
         if not request:
             embeds=[
                 discord.Embed(title='''**PiBot**''', description="""**help** - You are here right now.
 **stats** - Shows stats from the PiHole server
-**startAuto** - Posts updates every 5 minuites""", color=0xFF0000),
+**startAuto** - Posts updates every 5 minutes""", color=0xFF0000),
 
                 discord.Embed(title='''**PiBot**''', description="""**gravity** `<update>, <enable>, <disable>` - Allows you to preform various actions on the PiHole DNS FTL Service.
 **topdevice** - Shows the top device on the network
@@ -26,8 +24,6 @@ class Help(commands.Cog):
 
             paginator=BotEmbedPaginator(ctx, embeds)
             await paginator.run()
-
-
 
 
 def setup(bot):

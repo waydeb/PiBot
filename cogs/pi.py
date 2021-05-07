@@ -2,12 +2,10 @@ import discord
 from discord_slash import cog_ext, SlashContext
 import pihole as ph
 import asyncio
-import json
 import os
-from datetime import datetime
 from discord.ext import commands
-from discord_slash.utils.manage_commands import create_option, create_choice
 from .modules import sshCmd as sshModule
+
 pihole = ph.PiHole("a")
 pihole.authenticate("a")
 pihole.refresh()
@@ -51,7 +49,7 @@ class Pi(commands.Cog):
             break
 
     @cog_ext.cog_slash(name="startAuto", guild_ids=[your serverid], description="Auto posting")
-    async def startAuto(self, ctx):
+    async def start_auto(self, ctx):
         j=pihole.top_devices
         while True:
             for u in j:
