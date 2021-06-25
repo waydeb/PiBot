@@ -14,7 +14,7 @@ will be unbrokey soon:tm:
 
 ![top device](https://i.programming-socks.xyz/niTu4/kUGUfIQA03.gif/raw)
 
-
+issues please talk to wayde#9778 on discord
 
 a pretty shit discord bot that is mainly coded at 3 in the morning because why not
 > if you want hq code dont come here
