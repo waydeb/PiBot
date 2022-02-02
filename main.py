@@ -25,7 +25,6 @@ async def on_ready():
 
     print(bot.user.name)
     print(bot.user.id)
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Pi-hole on host name loler (ip loler)"))
 
 loop = asyncio.get_event_loop()
 
